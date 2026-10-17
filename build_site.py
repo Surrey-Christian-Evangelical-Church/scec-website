@@ -2,7 +2,7 @@
 """
 SCEC Chinese Website Subpage Generator for GitHub Pages
 Generates complete, responsive, styled subpages matching index.html,
-with song page numbers preserved and a dedicated choir.html page.
+with song page numbers, piano notes, and sheet music links fully preserved.
 """
 
 import os
@@ -212,7 +212,7 @@ def render_page(title, desc, active_nav, banner_title, banner_sub, breadcrumb_la
 ''' + ftr
 
 def main():
-    print("[*] Rebuilding subpages (separating choir.html and worship.html)...")
+    print("[*] Rebuilding subpages (with full piano notes and sheet music support)...")
 
     # 1. about.html
     about_content = '''
@@ -261,7 +261,7 @@ def main():
           </div>
 
           <div class="resource-card">
-            <div class="resource-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+            <div class="resource-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
             <h3 class="resource-title">2. 新生活网络版</h3>
             <p class="resource-desc">教导信徒怎样在日常生活、工作与家庭中实践神的话语，过圣洁得胜的基督徒生活。</p>
             <div class="resource-action">
@@ -462,7 +462,7 @@ def main():
             <h3 class="resource-title">知识与生命：两棵树的故事</h3>
             <p class="resource-desc">何文辉姊妹信息分享（2022-05-12），探讨分辨善恶树与生命树的灵意，引导信徒选择连接于生命的源头。</p>
             <div class="resource-action">
-              <a href="http://www.scecchinese.com/books/知识与生命：两棵树的故事.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="background-color: var(--primary-color); color: white; font-size: 0.88rem; padding: 0.45rem 1rem;">下载阅读 PDF (288KB) &darr;</a>
+              <a href="https://www.scecchinese.com/books/知识与生命：两棵树的故事.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="background-color: var(--primary-color); color: white; font-size: 0.88rem; padding: 0.45rem 1rem;">下载阅读 PDF (288KB) &darr;</a>
             </div>
           </div>
         </div>
@@ -472,32 +472,50 @@ def main():
         f.write(render_page("姐妹团契", "素里中国福音教会姐妹团契信息与属灵分享资料", "sisters-fellowship", "姐妹团契信息分享", "Sisters Fellowship Information & Resources", "姐妹团契", sisters_content))
     print("  -> Generated sisters-fellowship.html")
 
-    # 6. worship.html (Focused on the 252 songs with hymnal page numbers & live search)
-    with open(os.path.join(OUTPUT_DIR, "assets/worship_songs_with_pages.json"), encoding="utf-8") as sf:
+    # 6. worship.html (Focused on 252 songs with hymnal page numbers & sheet music/piano links)
+    with open(os.path.join(OUTPUT_DIR, "assets/worship_songs_complete.json"), encoding="utf-8") as sf:
         songs = json.load(sf)
 
     song_items_html = []
     for s in songs:
         title = s['title']
         page = s['page']
-        url = s['url']
-        if url:
+        primary_url = s.get('primary_url')
+        sheets = s.get('sheets', [])
+        
+        # Build action buttons
+        action_btns = []
+        if primary_url:
+            if primary_url.startswith("http://"):
+                primary_url = "https://" + primary_url[7:]
+            action_btns.append(f'''<a href="{primary_url}" target="_blank" rel="noopener" class="song-btn btn-play" title="播放伴奏视频"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 试听</a>''')
+        
+        for sh in sheets:
+            sh_title = sh['title']
+            sh_url = sh['url']
+            if sh_url.startswith("http://"):
+                sh_url = "https://" + sh_url[7:]
+            icon = "🎹" if "琴" in sh_title else "🎼"
+            action_btns.append(f'''<a href="{sh_url}" target="_blank" rel="noopener" class="song-btn btn-sheet" title="{sh_title}">{icon} {sh_title}</a>''')
+
+        if action_btns:
+            actions_rendered = f'''<div class="song-actions">{" ".join(action_btns)}</div>'''
             song_items_html.append(f'''
-          <a href="{url}" target="_blank" rel="noopener" class="song-item-wrapper" title="查看并播放 {title} ({page})">
+          <div class="song-item-wrapper">
             <div class="song-item-left">
               <span class="song-page-badge">{page}</span>
               <span class="song-name">{title}</span>
             </div>
-            <svg class="song-play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </a>''')
+            {actions_rendered}
+          </div>''')
         else:
             song_items_html.append(f'''
-          <div class="song-item-wrapper no-link" title="诗歌本目录曲目">
+          <div class="song-item-wrapper no-link">
             <div class="song-item-left">
               <span class="song-page-badge">{page}</span>
               <span class="song-name">{title}</span>
             </div>
-            <span style="font-size: 0.78rem; color: var(--color-gray-400);">诗本曲目</span>
+            <span class="song-note-muted">诗本曲目</span>
           </div>''')
 
     songs_rendered = "\n".join(song_items_html)
@@ -519,25 +537,25 @@ def main():
           <div>
             <h2 style="margin-bottom: 0.35rem;">教会敬拜赞美诗歌目录 (共 {len(songs)} 首)</h2>
             <p style="color: var(--color-gray-600); font-size: 0.95rem; margin-bottom: 0;">
-              📖 <strong>保留教会诗本印刷页码</strong>：方便弟兄姊妹对照实体诗歌本。点击曲目即可直接播放试听伴奏：
+              📖 <strong>完整保留实体诗本页码与乐谱链接</strong>：包含钢琴伴奏视频、钢琴谱 (第一页/第二页)、五线谱及简谱。点击即可播放或查看高清乐谱：
             </p>
           </div>
         </div>
 
-        <!-- Live Search Box with Page Number Support -->
+        <!-- Live Search Box with Page Number & Piano Notes Support -->
         <div class="search-wrapper">
           <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <input type="text" id="songSearch" class="search-input" placeholder="🔍 支持按歌名或诗本页码快速搜索（例如：26、第14页、恩典、平安、阿爸父...）" aria-label="搜索诗歌或页码">
+          <input type="text" id="songSearch" class="search-input" placeholder="🔍 支持按歌名、页码或乐谱快速搜索（例如：平安、69、第71页、钢琴谱、五线谱、千万个理由...）" aria-label="搜索诗歌、页码或乐谱">
         </div>
 
-        <div id="songsList" class="songs-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+        <div id="songsList" class="songs-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
 {songs_rendered}
         </div>
       </div>
 '''
     with open(os.path.join(OUTPUT_DIR, "worship.html"), "w", encoding="utf-8") as f:
-        f.write(render_page("敬拜诗歌", f"素里中国福音教会敬拜赞美诗歌目录，完整保留教会印刷诗本页码对照及在线伴奏试听 (共 {len(songs)} 首)", "worship", "诗歌敬拜与诗本目录", "Worship Hymnal Directory & Recordings", "敬拜诗歌", worship_content))
-    print("  -> Generated worship.html")
+        f.write(render_page("敬拜诗歌", f"素里中国福音教会敬拜赞美诗歌目录，完整保留教会印刷诗本页码对照、钢琴谱、五线谱及在线试听 (共 {len(songs)} 首)", "worship", "诗歌敬拜与诗本目录", "Worship Hymnal Directory & Sheet Music", "敬拜诗歌", worship_content))
+    print("  -> Generated worship.html (with full piano notes and sheet music links!)")
 
     # 7. choir.html (NEW dedicated choir page)
     choir_content = '''
@@ -773,7 +791,7 @@ def main():
         f.write(render_page("联系我们", "素里中国福音教会实体聚会点交通地址、联系电话、邮箱及在线留言", "contact", "联系我们与聚会地点", "Contact Surrey Christian Evangelical Church", "联系我们", contact_content))
     print("  -> Generated contact.html")
 
-    print("[✓] All subpages generated and choir.html separated successfully!")
+    print("[✓] All subpages generated with complete sheet music links successfully!")
 
 if __name__ == "__main__":
     main()
