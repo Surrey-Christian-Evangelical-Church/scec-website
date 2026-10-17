@@ -1,0 +1,7 @@
+# 圣经学习工具
+
+**Source URL:** https://scecchinese.com/bible-study/
+
+---
+
+神学研究[BBN](http://www.bbnradio.org/wcm4/bbnbischinese/Home/tabid/2381/Default.aspx)[圣经](http://www.bbnradio.org/wcm4/bbnbischinese/Home/tabid/2381/Default.aspx)[学院](http://www.bbnradio.org/wcm4/bbnbischinese/Home/tabid/2381/Default.aspx)[三一阁](http://31team.org/)[神学文献](https://godoor.net/text/shenxue.htm)[中国神学研究院](https://www.cgst.edu/hk/cht/Homepage/index)[来华宣教士人物生平词典](https://bdcconline.net/zh-hans/stories/)[希伯来圣经教室](http://hebrew.fhl.net/)[基督教－神学研究](http://www.godoor.net/text/wangluo/jdj-sxyj.htm)查经及研经工具[信望爱圣经工具](https://bible.fhl.net/gbdoc/NUI/#/bible/Ge/1/1)[华训研经工具](http://home.yanjinggongju.com/b/web/)[旧约圣经背景注释](https://scecchinese.com/books/%E6%97%A7%E7%BA%A6%E5%9C%A3%E7%BB%8F%E8%83%8C%E6%99%AF%E6%B3%A8%E9%87%8A.pdf)[新约圣经背景注释](https://scecchinese.com/books/%E6%96%B0%E7%BA%A6%E8%83%8C%E6%99%AF%E6%B3%A8%E9%87%8A.pdf)[圣经年表大事记修订版2021](https://scecchinese.com/books/%E5%9C%A3%E7%BB%8F%E5%B9%B4%E8%A1%A8%E5%A4%A7%E4%BA%8B%E8%AE%B0%E4%BF%AE%E8%AE%A2%E7%89%882021.pdf)灵命造就[旷野书库](http://shu.kyhs.net/)[属灵书籍书库](http://wellsofgrace.com/index-books.htm)[信仰之门](http://www.godoor.net/)[教会工人培训手册](http://cclw.net/other/jhgrpx/index.html)[福 音 的 桥 梁](http://www.blessed.org/)[游子吟](http://cclw.net/gospel/explore/youziyin/htm/index.htm)[标杆人生](http://cclw.net/book/bgrs/htm/index2.html)福音图书及影视资料[中国基督教书刊](http://chinachristianbooks.org/home/)[GOOD TV](https://www.goodtv.tv/)
