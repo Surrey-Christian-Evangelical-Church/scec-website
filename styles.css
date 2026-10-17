@@ -1495,10 +1495,6 @@ textarea.form-control {
 }
 
 .song-title-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-gray-800);
@@ -1509,22 +1505,7 @@ textarea.form-control {
 
 .song-title-link:hover {
   color: var(--primary-color);
-}
-
-.song-title-link:hover .song-play-icon-mini {
-  fill: var(--primary-color);
-  opacity: 1;
-  transform: scale(1.18);
-}
-
-.song-play-icon-mini {
-  width: 14px;
-  height: 14px;
-  fill: var(--primary-color);
-  opacity: 0.65;
-  transition: all var(--transition-fast);
-  flex-shrink: 0;
-  margin-left: auto;
+  text-decoration: underline;
 }
 
 .song-title-text {

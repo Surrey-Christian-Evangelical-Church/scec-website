@@ -487,10 +487,7 @@ def main():
         if primary_url:
             if primary_url.startswith("http://"):
                 primary_url = "https://" + primary_url[7:]
-            title_html = f'''<a href="{primary_url}" target="_blank" rel="noopener" class="song-title-link" title="点击播放伴奏视频">
-                <span>{title}</span>
-                <svg class="song-play-icon-mini" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </a>'''
+            title_html = f'''<a href="{primary_url}" target="_blank" rel="noopener" class="song-title-link" title="点击播放伴奏视频">{title}</a>'''
         else:
             title_html = f'''<span class="song-title-text">{title}</span>'''
         
