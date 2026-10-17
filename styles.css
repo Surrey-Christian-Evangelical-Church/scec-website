@@ -1460,8 +1460,8 @@ textarea.form-control {
 
 .song-item-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   padding: 0.75rem 1rem;
   border-radius: var(--border-radius-sm);
   background-color: var(--color-gray-50);
@@ -1471,16 +1471,9 @@ textarea.form-control {
 }
 
 .song-item-wrapper:hover {
-  background-color: var(--primary-light);
+  background-color: #fbf8fe;
   border-color: var(--primary-border);
-  transform: translateX(3px);
   box-shadow: var(--shadow-sm);
-}
-
-.song-item-left {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
 }
 
 .song-item-wrapper.no-link {
@@ -1495,14 +1488,67 @@ textarea.form-control {
   box-shadow: none;
 }
 
-/* Song Actions & Sheet Music Buttons */
-.song-actions {
+.song-item-main {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
+  width: 100%;
+}
+
+.song-title-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-gray-800);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  flex-grow: 1;
+}
+
+.song-title-link:hover {
+  color: var(--primary-color);
+}
+
+.song-title-link:hover .song-play-icon-mini {
+  fill: var(--primary-color);
+  opacity: 1;
+  transform: scale(1.18);
+}
+
+.song-play-icon-mini {
+  width: 14px;
+  height: 14px;
+  fill: var(--primary-color);
+  opacity: 0.65;
+  transition: all var(--transition-fast);
   flex-shrink: 0;
-  margin-left: 0.75rem;
+  margin-left: auto;
+}
+
+.song-title-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+/* Secondary line for Sheet Music / Notes */
+.song-sheets-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed var(--color-gray-200);
+  padding-left: calc(62px + 0.75rem);
+}
+
+@media (max-width: 480px) {
+  .song-sheets-row {
+    padding-left: 0;
+  }
 }
 
 .song-btn {
@@ -1516,23 +1562,6 @@ textarea.form-control {
   text-decoration: none;
   transition: all var(--transition-fast);
   white-space: nowrap;
-}
-
-.song-btn.btn-play {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
-  border: 1px solid var(--primary-border);
-}
-
-.song-btn.btn-play:hover {
-  background-color: var(--primary-color);
-  color: var(--color-white);
-}
-
-.song-btn.btn-play svg {
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
 }
 
 .song-btn.btn-sheet {

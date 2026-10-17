@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       songItems.forEach(item => {
         const text = item.textContent.toLowerCase();
         if (text.includes(query)) {
-          item.style.display = 'flex';
+          item.style.display = '';
         } else {
           item.style.display = 'none';
         }

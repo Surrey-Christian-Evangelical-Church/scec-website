@@ -483,39 +483,42 @@ def main():
         primary_url = s.get('primary_url')
         sheets = s.get('sheets', [])
         
-        # Build action buttons
-        action_btns = []
+        # 1. Main Title Link (or text)
         if primary_url:
             if primary_url.startswith("http://"):
                 primary_url = "https://" + primary_url[7:]
-            action_btns.append(f'''<a href="{primary_url}" target="_blank" rel="noopener" class="song-btn btn-play" title="播放伴奏视频"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> 试听</a>''')
+            title_html = f'''<a href="{primary_url}" target="_blank" rel="noopener" class="song-title-link" title="点击播放伴奏视频">
+                <span>{title}</span>
+                <svg class="song-play-icon-mini" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </a>'''
+        else:
+            title_html = f'''<span class="song-title-text">{title}</span>'''
         
+        # 2. Sheet music links (organized into a separate new line)
+        sheet_btns = []
         for sh in sheets:
             sh_title = sh['title']
             sh_url = sh['url']
             if sh_url.startswith("http://"):
                 sh_url = "https://" + sh_url[7:]
             icon = "🎹" if "琴" in sh_title else "🎼"
-            action_btns.append(f'''<a href="{sh_url}" target="_blank" rel="noopener" class="song-btn btn-sheet" title="{sh_title}">{icon} {sh_title}</a>''')
-
-        if action_btns:
-            actions_rendered = f'''<div class="song-actions">{" ".join(action_btns)}</div>'''
-            song_items_html.append(f'''
-          <div class="song-item-wrapper">
-            <div class="song-item-left">
+            sheet_btns.append(f'''<a href="{sh_url}" target="_blank" rel="noopener" class="song-btn btn-sheet" title="{sh_title}">{icon} {sh_title}</a>''')
+        
+        sheets_html = ""
+        if sheet_btns:
+            sheets_html = f'''
+            <div class="song-sheets-row">
+              {" ".join(sheet_btns)}
+            </div>'''
+        
+        wrapper_class = "song-item-wrapper" if (primary_url or sheet_btns) else "song-item-wrapper no-link"
+        
+        song_items_html.append(f'''
+          <div class="{wrapper_class}">
+            <div class="song-item-main">
               <span class="song-page-badge">{page}</span>
-              <span class="song-name">{title}</span>
-            </div>
-            {actions_rendered}
-          </div>''')
-        else:
-            song_items_html.append(f'''
-          <div class="song-item-wrapper no-link">
-            <div class="song-item-left">
-              <span class="song-page-badge">{page}</span>
-              <span class="song-name">{title}</span>
-            </div>
-            <span class="song-note-muted">诗本曲目</span>
+              {title_html}
+            </div>{sheets_html}
           </div>''')
 
     songs_rendered = "\n".join(song_items_html)
@@ -537,7 +540,7 @@ def main():
           <div>
             <h2 style="margin-bottom: 0.35rem;">教会敬拜赞美诗歌目录 (共 {len(songs)} 首)</h2>
             <p style="color: var(--color-gray-600); font-size: 0.95rem; margin-bottom: 0;">
-              📖 <strong>完整保留实体诗本页码与乐谱链接</strong>：包含钢琴伴奏视频、钢琴谱 (第一页/第二页)、五线谱及简谱。点击即可播放或查看高清乐谱：
+              📖 <strong>完整保留实体诗本页码与乐谱链接</strong>：点击歌名即可直接播放伴奏视频；若有乐谱（钢琴谱 / 五线谱 / 简谱），在歌名下方独立换行显示：
             </p>
           </div>
         </div>
