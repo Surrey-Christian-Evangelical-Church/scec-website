@@ -1438,3 +1438,59 @@ textarea.form-control {
     height: 180px;
   }
 }
+
+
+/* Song Page Number Badge */
+.song-page-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 62px;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--border-radius-sm);
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.song-item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.song-item-wrapper:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary-border);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.song-item-left {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.song-item-wrapper.no-link {
+  cursor: default;
+  background-color: #fafafa;
+}
+
+.song-item-wrapper.no-link:hover {
+  transform: none;
+  background-color: #fafafa;
+  border-color: var(--color-gray-200);
+  box-shadow: none;
+}

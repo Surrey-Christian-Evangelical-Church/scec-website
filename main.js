@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const songsList = document.getElementById('songsList');
 
   if (songSearchInput && songsList) {
-    const songItems = songsList.querySelectorAll('.song-item');
+    const songItems = songsList.querySelectorAll('.song-item-wrapper, .song-item');
     songSearchInput.addEventListener('input', (e) => {
       const query = e.target.value.trim().toLowerCase();
       songItems.forEach(item => {
